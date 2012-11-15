@@ -2,7 +2,7 @@ $(function() {
   var Word = Backbone.Model.extend({
     defaults: function() {
       return {
-        text: 'ahsdfaskjhdf',
+        text: '',
         type: 'plain',
         visible: true,
         order: Words.nextOrder()
@@ -24,7 +24,6 @@ $(function() {
       return word.get('order');
     },
     insert: function(e) {
-      console.log('GOT KEYPRESS!');
       if (e.which !== 0 && e.charCode !== 0) {
         this.last().inserta(e.keyCode|e.charCode);
       }
@@ -41,12 +40,11 @@ $(function() {
     },
     render: function() {
       this.className = this.model.get('type');
-      $(this.el).html(this.model.get('text'));
+      $(this.el).html(this.model.get('text')+' ');
       return this;
     },
   });
 
-  // THERE CAN ONLY BE ONE dɒkjʊmənt
   var DocView = Backbone.View.extend({
     el: $('#app'),
     initialize: function() {
@@ -61,12 +59,18 @@ $(function() {
     addAll: function() {
       Words.each(this.addOne);
     },
+    insert: function(e) {
+      Words.insert(e);
+    },
   });
 
   var Doc = new DocView;
-  var words = [{text:'asdf'},{},{text:'sdlfkj'}];
-  Words.reset(words);
+
   $('body').keypress(function(e) {
-      Words.insert(e);
+      Doc.insert(e);
   });
+
+  // TODO: remove crap.
+  var words = [{text:'asdf'},{text:'yarg'},{text:'sdlfkj'}];
+  Words.reset(words);
 });
