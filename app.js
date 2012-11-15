@@ -48,7 +48,7 @@ $(function() {
 
   // THERE CAN ONLY BE ONE dɒkjʊmənt
   var DocView = Backbone.View.extend({
-    el: $('#dɒkjʊmənt'),
+    el: $('#app'),
     initialize: function() {
       Words.on('add', this.addOne, this);
       Words.on('reset', this.addAll, this);
@@ -56,7 +56,7 @@ $(function() {
     },
     addOne: function(word) {
       var view = new WordView({model: word});
-      this.$('#lɪst').append(view.render().el);
+      this.$('#line').append(view.render().el);
     },
     addAll: function() {
       Words.each(this.addOne);
